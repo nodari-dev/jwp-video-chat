@@ -1,0 +1,12 @@
+@import "../../theme/theme-variables";
+
+.home-welcome{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+
+  & .text-container{
+    width: 50%;
+  }
+}

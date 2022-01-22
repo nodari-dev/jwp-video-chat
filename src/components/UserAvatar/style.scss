@@ -1,0 +1,23 @@
+@import "../../theme/theme-variables";
+
+.user{
+  display: flex;
+  align-items: center;
+
+  &-avatar{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: $primary-color;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg{
+      width: 30px;
+      height: 30px;
+      color: $light-color;
+    }
+  }
+}

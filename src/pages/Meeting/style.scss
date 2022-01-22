@@ -1,0 +1,46 @@
+.meeting-content {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+
+  & .left-content {
+    width: 75%;
+    min-height: 100%;
+    border: 1px solid red;
+    position: relative;
+
+
+    & .navbar {
+      width: 100%;
+      border: 1px solid red;
+      min-height: 40px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      & .meeting-menu-list{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        & ul.main-item{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          & li{
+            margin: 0 15px;
+          }
+        }
+      }
+    }
+  }
+
+  & .right-content {
+    width: 25%;
+    min-height: 100%;
+    border: 1px solid red;
+
+  }
+}
