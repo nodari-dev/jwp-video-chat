@@ -1,0 +1,16 @@
+@import "../../theme/theme-variables";
+
+.logo{
+  border: 1px solid red;
+
+  & a {
+    display: flex;
+    align-items: center;
+
+    & img{
+      width: 50px;
+      margin-right: 10px;
+    }
+  }
+
+}

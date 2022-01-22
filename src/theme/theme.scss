@@ -1,0 +1,134 @@
+@import "./theme-variables";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  line-height: calc(1em + 0.5rem);
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  font-family: $primary-font;
+  border: 6px solid $primary-color;
+  color: $primary-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  overflow-wrap: break-word;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+img,
+picture,
+video,
+canvas,
+svg,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  text-decoration: none;
+  color: $primary-color;
+}
+
+a,
+area,
+button,
+input,
+label,
+select,
+summary,
+textarea,
+[tabindex] {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+strong {
+  font-weight: bolder;
+}
+
+:where(button, [type='button' i], [type='reset' i], [type='submit' i]) {
+  -webkit-appearance: button;
+}
+
+small {
+  font-size: 80%;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  caption-side: bottom;
+}
+
+textarea {
+  white-space: revert;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+}
+
+/*  Remove all animations, transitions and smooth scroll */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.box{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.container{
+  max-width: 1440px;
+  width: 100%;
+  border: 1px solid red;
+}
