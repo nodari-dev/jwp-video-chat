@@ -1,0 +1,25 @@
+@import "../../theme/theme-variables";
+
+.home{
+  padding: 10px 50px;
+
+  & .container{
+    display: flex;
+    justify-content: center;
+    height: calc(100vh - 130px);
+    align-items: center;
+
+      & .home-welcome{
+        width: 50%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+
+        & .text-container{
+          width: 50%;
+        }
+      }
+    }
+
+}

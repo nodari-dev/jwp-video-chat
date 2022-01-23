@@ -1,0 +1,26 @@
+@import "../../../theme/theme-variables";
+
+.start-meeting {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $primary-dark-color;
+  color: $primary-light-color;
+  cursor: pointer;
+  animation: beat .9s infinite alternate;
+  transform-origin: center;
+
+  & svg {
+    width: 100px;
+    height: 100px;
+  }
+
+}
+
+@keyframes beat{
+  to { transform: scale(1.05); }
+}

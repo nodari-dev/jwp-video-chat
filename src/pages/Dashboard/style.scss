@@ -1,0 +1,41 @@
+@import "../../theme/theme-variables";
+
+.dashboard-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: calc( 100vh - 200px);
+
+  & .action-user{
+    height: auto;
+    display: flex;
+
+    & button.action{
+      border-radius: 5px;
+      border:none;
+      background-color: $primary-dark-color;
+      color: $light-color;
+      padding: 10px;
+      margin: 10px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      & svg{
+        margin-right: 10px;
+      }
+
+      & span{
+        opacity: .7;
+        transition: 200ms all linear;
+      }
+
+      &:hover{
+        & span{
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
