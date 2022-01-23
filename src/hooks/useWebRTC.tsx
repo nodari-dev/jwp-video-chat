@@ -26,6 +26,14 @@ export default function useWebRTC(roomID:any) {
         [LOCAL_VIDEO]: null,
     });
 
+    const hideCamera = () => {
+        localMediaStream.current.getVideoTracks()[0].show();
+    }
+
+    const showCamera = () => {
+        localMediaStream.current.getVideoTracks()[0].start();
+    }
+
     useEffect(() => {
         async function handleNewPeer({peerID, createOffer}: any) {
             if (peerID in peerConnections.current) {
@@ -158,6 +166,7 @@ export default function useWebRTC(roomID:any) {
                 video: {
                     width: 1280,
                     height: 720,
+
                 }
             });
 
@@ -182,12 +191,14 @@ export default function useWebRTC(roomID:any) {
         };
     }, [roomID]);
 
+
+
     const provideMediaRef = useCallback((id, node) => {
         peerMediaElements.current[id] = node;
     }, []);
 
     return {
         clients,
-        provideMediaRef
+        provideMediaRef,
     };
 }

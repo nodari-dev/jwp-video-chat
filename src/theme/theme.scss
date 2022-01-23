@@ -22,9 +22,8 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   font-family: $primary-font;
-  border: 7px solid $primary-color;
-  color: $primary-color;
-  background-color: $light-color;
+  color: $primary-dark-color;
+  background-color: $primary-light-color;
 }
 
 h1,
@@ -35,13 +34,13 @@ h5,
 h6
 {
   overflow-wrap: break-word;
-  margin: 15px 0;
 }
 
 p{
   overflow-wrap: break-word;
   line-height: 30px;
   opacity: .8;
+  margin: 5px 0;
 }
 
 ul,
@@ -62,7 +61,7 @@ iframe {
 a:not([class]) {
   text-decoration-skip-ink: auto;
   text-decoration: none;
-  color: $primary-color;
+  color: $primary-dark-color;
 }
 
 a,
@@ -136,20 +135,25 @@ textarea {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 30px 0;
+  //padding: 30px 0;
 }
 
 .container{
   width:100%;
-  max-width: 1440px;
+  //padding: 0 4rem;
   display: flex;
-  align-items: center;
-  flex-direction: column;
+
+
+  &-column{
+    flex-direction: column;
+  }
 }
 
 .wrap{
+  min-height: 100vh;
+
   &.full-height{
-    min-height: calc( 100vh - 200px);
+    //min-height: 100vh;
 
   }
   &-full-width{
