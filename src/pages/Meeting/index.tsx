@@ -13,15 +13,12 @@ import {
     MicrophoneMuteIcon,
     MessageIcon,
     PhoneCallCrossIcon,
-    SendIcon
 } from '@iconicicons/react';
 
-import "./style.scss";
 import {useParams} from "react-router-dom";
 import useWebRTC, {LOCAL_VIDEO} from "../../hooks/useWebRTC";
-import message from "../../components/Message";
-import Tabs from "./Tabs";
 import Sidebar from "./Sidebar";
+import "./style.scss";
 
 
 const users = [

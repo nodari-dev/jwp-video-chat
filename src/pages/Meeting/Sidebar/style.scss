@@ -3,7 +3,6 @@
 .meeting-sidebar {
   width: 25%;
   min-height: 100%;
-  padding: 0 30px;
   background-color: $primary-light-color;
   position: relative;
 
@@ -13,12 +12,17 @@
 
 
   & .content{
+    width: 100%;
+    position: relative;
+
     &-chat, &-user-list{
+      padding: 0 30px;
       width: 100%;
       height: calc(100vh - 80px);
     }
 
     &-chat{
+
       & .messages {
         width: 100%;
         height: calc(100vh - 180px);

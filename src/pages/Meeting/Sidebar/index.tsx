@@ -1,8 +1,8 @@
+import React from "react";
 import Tabs from "../Tabs";
 import {SendIcon} from "@iconicicons/react";
-import React from "react";
-import "./style.scss";
 import {Message} from "../../../components";
+import "./style.scss";
 
 interface Props{
     show: boolean;

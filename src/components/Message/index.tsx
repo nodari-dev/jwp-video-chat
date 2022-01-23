@@ -11,7 +11,7 @@ export default (props: Props) => {
     return(
         <div className={"message-item"}>
             <div className={"avatar"}><UserIcon/></div>
-            <div className={"content"}><h4>{props.name}</h4><p>{props.message}</p></div>
+            <div className={"message-content"}><h4>{props.name}</h4><p>{props.message}</p></div>
         </div>
     )
 }
