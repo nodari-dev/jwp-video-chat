@@ -1,4 +1,5 @@
-# Video chat for Int20h  [LIVE](https://video-caht.herokuapp.com)
+# Video chat for Int20h  [LIVE](https://video-caht.herokuapp.com) 
+#### in order to test multiple users please open new tab in same brawser and paste url
 
 ## Available Scripts
 
