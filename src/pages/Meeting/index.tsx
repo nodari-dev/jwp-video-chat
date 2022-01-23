@@ -12,7 +12,8 @@ import {
     MicrophoneIcon,
     MicrophoneMuteIcon,
     MessageIcon,
-    PhoneCallCrossIcon
+    PhoneCallCrossIcon,
+    SendIcon
 } from '@iconicicons/react';
 
 import "./style.scss";
@@ -38,22 +39,6 @@ const messages = [
         name: "Danylo LOX",
         message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
     },
-    {
-        name: "test",
-        message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
-    },
-    {
-        name: "Nazar Bazar",
-        message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
-    },
-    {
-        name: "Denis Penis",
-        message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
-    },
-    {
-        name: "Danylo LOX",
-        message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
-    }
 ]
 
 const users = [
@@ -124,6 +109,8 @@ export default (props: any) => {
 
     const [showChat, setVisibleChat] = React.useState(true);
     const [showSidebar, setVisibleSidebar] = React.useState(false);
+    const [enabledVideo, setVideo] = React.useState(false);
+    const [enabledMicro, setMicro] = React.useState(false);
 
     const {id: roomID} = useParams();
     const {clients, provideMediaRef} = useWebRTC(roomID);
@@ -170,22 +157,26 @@ export default (props: any) => {
                                     icon={<PhoneCallCrossIcon/>}
                                 />
                             </li>
-                            <li onClick={() => console.log("video")}>
+                            <li onClick={() => setVideo(!enabledVideo)}>
                                 <ActionItem
                                     icon={<VideoCameraIcon/>}
-                                    disabled={true}
+                                    disabled={enabledVideo}
                                     disableIcon={<VideoCameraOffIcon/>}
                                 />
                             </li>
-                            <li onClick={() => console.log("micro")}>
+                            <li onClick={() => setMicro(!enabledMicro)}>
                                 <ActionItem
                                     icon={<MicrophoneIcon/>}
+                                    disabled={enabledMicro}
                                     disableIcon={<MicrophoneMuteIcon/>}
                                 />
                             </li>
 
                             <li onClick={() => setVisibleSidebar(!showSidebar)}>
-                                <ActionItem icon={<MessageIcon/>}/>
+                                <ActionItem
+                                    icon={<MessageIcon/>}
+                                    disabled={showSidebar}
+                                />
                             </li>
                         </ul>
                     </div>
@@ -208,7 +199,7 @@ export default (props: any) => {
                     <div className={"messages"}>
                         <ul className={'messages-list'}>
                             {messages.map((item: any, index: any) => {
-                                return(
+                                return (
                                     <li key={index}>
                                         <Message name={item.name} message={item.message}/>
                                     </li>
@@ -217,7 +208,14 @@ export default (props: any) => {
                         </ul>
                     </div>
                     <div className={"form-message"}>
-
+                        <form>
+                            <textarea
+                                   name={"message"}
+                                   id={"message"}
+                                   placeholder={"Type your message..."}
+                            />
+                            <button><SendIcon/></button>
+                        </form>
                     </div>
                 </div>
             </div>

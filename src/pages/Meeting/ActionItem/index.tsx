@@ -9,8 +9,10 @@ interface Props{
 
 export default (props: Props) =>{
     return(
-        <div className={`meeting-menu-el ${props.phone && "phone-style"}`}>
-            {props.disabled ? props.disableIcon : props.icon}
+        <div className={`meeting-menu-el ${props.phone && "phone-style"} ${props.disabled && "disabled"}`}>
+            {props.disableIcon
+                ? props.disabled ? props.disableIcon : props.icon
+                : props.icon}
         </div>
     )
 }

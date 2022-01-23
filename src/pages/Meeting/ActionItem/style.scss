@@ -4,17 +4,29 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: $primary-dark-color;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background-color: $light-color;
+  border: 2px solid $primary-dark-color;
+  transition: .2s all linear;
+
 
   & svg{
     width: 30px;
     height: 30px;
-    color: $light-color;
+    color: $primary-dark-color;
   }
+
+  &.disabled {
+    background-color: $primary-dark-color !important;
+
+    & svg {
+      color: $primary-light-color !important;
+    }
+  }
+
 
   &.phone-style{
     background-color: $red-color;

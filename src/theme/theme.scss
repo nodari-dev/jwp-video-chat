@@ -22,7 +22,6 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   font-family: $primary-font;
-  color: $primary-dark-color;
   background-color: $primary-light-color;
 }
 
@@ -34,13 +33,17 @@ h5,
 h6
 {
   overflow-wrap: break-word;
+  color: $primary-dark-color;
 }
 
 p{
   overflow-wrap: break-word;
-  line-height: 30px;
   opacity: .8;
   margin: 5px 0;
+  font-size: 16px;
+  color: $primary-dark-text-color;
+
+
 }
 
 ul,
@@ -78,6 +81,10 @@ textarea,
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  font-size: 16px;
+  color: $primary-dark-text-color;
+
+
 }
 
 input,
