@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import {useNavigate} from 'react-router';
 import {VideoCameraIcon} from '@iconicicons/react';
 import "./style.scss";
-import { ACTIONS } from "../../../socket/actions";
 import socket from "../../../socket";
 import {v4} from 'uuid';
+import ACTIONS from "../../../socket/actions";
 
 export default (props: any) => {
     const history = useNavigate();
@@ -18,6 +18,8 @@ export default (props: any) => {
             }
         });
     }, []);
+
+
     return (
         <div className={"start-meeting"} onClick={() =>  history(`/room/${v4()}`)}>
             <VideoCameraIcon/>
@@ -25,3 +27,4 @@ export default (props: any) => {
         </div>
     )
 }
+

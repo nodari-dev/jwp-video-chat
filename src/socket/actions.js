@@ -1,4 +1,4 @@
-export const ACTIONS = {
+const ACTIONS = {
     JOIN: 'join',
     LEAVE: 'leave',
     SHARE_ROOMS: 'share-rooms',
@@ -9,3 +9,5 @@ export const ACTIONS = {
     ICE_CANDIDATE: 'ice-candidate',
     SESSION_DESCRIPTION: 'session-description'
 };
+
+module.exports = ACTIONS;

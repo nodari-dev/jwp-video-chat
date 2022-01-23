@@ -1,63 +1,108 @@
+const path = require('path');
 const express = require('express');
 const app = express();
-const http = require('http');
-const { Server } = require('socket.io');
-app.use(express.static('public'));
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const {version, validate} = require('uuid');
 
-const server = http.createServer(app);
-const io = new Server(server);
+const ACTIONS = require('./src/socket/actions');
+const PORT = process.env.PORT || 3001;
 
-app.get('/room/:roomId', (req, res) => {
-    res.sendFile(`${__dirname}/public/room.html`);
-});
+function getClientRooms() {
+    const {rooms} = io.sockets.adapter;
+
+    return Array.from(rooms.keys()).filter(roomID => validate(roomID) && version(roomID) === 4);
+}
+
+function shareRoomsInfo() {
+    io.emit(ACTIONS.SHARE_ROOMS, {
+        rooms: getClientRooms()
+    })
+}
 
 io.on('connection', socket => {
-    socket.on('user joined room', roomId => {
-        const room = io.sockets.adapter.rooms.get(roomId);
+    shareRoomsInfo();
 
-        if (room && room.size === 4) {
-            socket.emit('server is full');
-            return;
+    socket.on(ACTIONS.JOIN, config => {
+        const {room: roomID} = config;
+        const {rooms: joinedRooms} = socket;
+
+        if (Array.from(joinedRooms).includes(roomID)) {
+            return console.warn(`Already joined to ${roomID}`);
         }
 
-        const otherUsers = [];
+        const clients = Array.from(io.sockets.adapter.rooms.get(roomID) || []);
 
-        if (room) {
-            room.forEach(id => {
-                otherUsers.push(id);
-            })
-        }
+        clients.forEach(clientID => {
+            io.to(clientID).emit(ACTIONS.ADD_PEER, {
+                peerID: socket.id,
+                createOffer: false
+            });
 
-        socket.join(roomId);
-        socket.emit('all other users', otherUsers);
+            socket.emit(ACTIONS.ADD_PEER, {
+                peerID: clientID,
+                createOffer: true,
+            });
+        });
+
+        socket.join(roomID);
+        shareRoomsInfo();
     });
 
-    socket.on('peer connection request', ({ userIdToCall, sdp }) => {
-        io.to(userIdToCall).emit("connection offer", { sdp, callerId: socket.id });
-    });
+    function leaveRoom() {
+        const {rooms} = socket;
 
-    socket.on('connection answer', ({ userToAnswerTo, sdp }) => {
-        io.to(userToAnswerTo).emit('connection answer', { sdp, answererId: socket.id })
-    });
+        Array.from(rooms)
+            // LEAVE ONLY CLIENT CREATED ROOM
+            .filter(roomID => validate(roomID) && version(roomID) === 4)
+            .forEach(roomID => {
 
-    socket.on('ice-candidate', ({ target, candidate }) => {
-        io.to(target).emit('ice-candidate', { candidate, from: socket.id });
-    });
+                const clients = Array.from(io.sockets.adapter.rooms.get(roomID) || []);
 
-    socket.on('disconnecting', () => {
-        socket.rooms.forEach(room => {
-            socket.to(room).emit('user disconnected', socket.id);
+                clients
+                    .forEach(clientID => {
+                        io.to(clientID).emit(ACTIONS.REMOVE_PEER, {
+                            peerID: socket.id,
+                        });
+
+                        socket.emit(ACTIONS.REMOVE_PEER, {
+                            peerID: clientID,
+                        });
+                    });
+
+                socket.leave(roomID);
+            });
+
+        shareRoomsInfo();
+    }
+
+    socket.on(ACTIONS.LEAVE, leaveRoom);
+    socket.on('disconnecting', leaveRoom);
+
+    socket.on(ACTIONS.RELAY_SDP, ({peerID, sessionDescription}) => {
+        io.to(peerID).emit(ACTIONS.SESSION_DESCRIPTION, {
+            peerID: socket.id,
+            sessionDescription,
         });
     });
 
-    socket.on('hide remote cam', targetId => {
-        io.to(targetId).emit('hide cam');
+    socket.on(ACTIONS.RELAY_ICE, ({peerID, iceCandidate}) => {
+        io.to(peerID).emit(ACTIONS.ICE_CANDIDATE, {
+            peerID: socket.id,
+            iceCandidate,
+        });
     });
-
-    socket.on('show remote cam', targetId => {
-        io.to(targetId).emit('show cam')
-    })
 
 });
 
-server.listen(3001, () => console.log('server is running on port 3001'));
+const publicPath = path.join(__dirname, 'build');
+
+app.use(express.static(publicPath));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(publicPath, 'index.html'));
+});
+
+server.listen(PORT, () => {
+    console.log('Server Started!')
+})

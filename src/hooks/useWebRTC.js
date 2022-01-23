@@ -2,16 +2,16 @@ import {useEffect, useRef, useCallback} from 'react';
 import freeice from 'freeice';
 import useStateWithCallback from './useStateWithCallback';
 import socket from '../socket';
-import {ACTIONS} from '../socket/actions';
+import ACTIONS from "../socket/actions";
 
 export const LOCAL_VIDEO = 'LOCAL_VIDEO';
 
 
-export default function useWebRTC(roomID:any) {
+export default function useWebRTC(roomID) {
     const [clients, updateClients] = useStateWithCallback([]);
 
     const addNewClient = useCallback((newClient, cb) => {
-        updateClients((list:any) => {
+        updateClients((list) => {
             if (!list.includes(newClient)) {
                 return [...list, newClient]
             }
@@ -20,9 +20,9 @@ export default function useWebRTC(roomID:any) {
         }, cb);
     }, [clients, updateClients]);
 
-    const peerConnections = useRef<any>({});
-    const localMediaStream = useRef<any>(null);
-    const peerMediaElements = useRef<any>({
+    const peerConnections = useRef({});
+    const localMediaStream = useRef(null);
+    const peerMediaElements = useRef({
         [LOCAL_VIDEO]: null,
     });
 
@@ -35,7 +35,7 @@ export default function useWebRTC(roomID:any) {
     }
 
     useEffect(() => {
-        async function handleNewPeer({peerID, createOffer}: any) {
+        async function handleNewPeer({peerID, createOffer}) {
             if (peerID in peerConnections.current) {
                 return console.warn(`Already connected to peer ${peerID}`);
             }
@@ -44,7 +44,7 @@ export default function useWebRTC(roomID:any) {
                 iceServers: freeice(),
             });
 
-            peerConnections.current[peerID].onicecandidate = (event:any) => {
+            peerConnections.current[peerID].onicecandidate = (event) => {
                 if (event.candidate) {
                     socket.emit(ACTIONS.RELAY_ICE, {
                         peerID,
@@ -54,7 +54,7 @@ export default function useWebRTC(roomID:any) {
             }
 
             let tracksNumber = 0;
-            peerConnections.current[peerID].ontrack = ({streams: [remoteStream]}:any) => {
+            peerConnections.current[peerID].ontrack = ({streams: [remoteStream]}) => {
                 tracksNumber++
 
                 if (tracksNumber === 2) { // video & audio tracks received
@@ -80,7 +80,7 @@ export default function useWebRTC(roomID:any) {
                 }
             }
 
-            localMediaStream.current.getTracks().forEach((track:any) => {
+            localMediaStream.current.getTracks().forEach((track) => {
                 peerConnections.current[peerID].addTrack(track, localMediaStream.current);
             });
 
@@ -104,7 +104,7 @@ export default function useWebRTC(roomID:any) {
     }, []);
 
     useEffect(() => {
-        async function setRemoteMedia({peerID, sessionDescription: remoteDescription}:any) {
+        async function setRemoteMedia({peerID, sessionDescription: remoteDescription}) {
             await peerConnections.current[peerID]?.setRemoteDescription(
                 new RTCSessionDescription(remoteDescription)
             );
@@ -129,7 +129,7 @@ export default function useWebRTC(roomID:any) {
     }, []);
 
     useEffect(() => {
-        socket.on(ACTIONS.ICE_CANDIDATE, ({peerID, iceCandidate}:any) => {
+        socket.on(ACTIONS.ICE_CANDIDATE, ({peerID, iceCandidate}) => {
             peerConnections.current[peerID]?.addIceCandidate(
                 new RTCIceCandidate(iceCandidate)
             );
@@ -141,7 +141,7 @@ export default function useWebRTC(roomID:any) {
     }, []);
 
     useEffect(() => {
-        const handleRemovePeer = ({peerID}:any) => {
+        const handleRemovePeer = ({peerID}) => {
             if (peerConnections.current[peerID]) {
                 peerConnections.current[peerID].close();
             }
@@ -149,7 +149,7 @@ export default function useWebRTC(roomID:any) {
             delete peerConnections.current[peerID];
             delete peerMediaElements.current[peerID];
 
-            updateClients((list:any) => list.filter((c:any) => c !== peerID));
+            updateClients((list) => list.filter((c) => c !== peerID));
         };
 
         socket.on(ACTIONS.REMOVE_PEER, handleRemovePeer);
@@ -185,7 +185,7 @@ export default function useWebRTC(roomID:any) {
             .catch(e => console.error('Error getting userMedia:', e));
 
         return () => {
-            localMediaStream.current.getTracks().forEach((track:any) => track.stop());
+            localMediaStream.current.getTracks().forEach((track) => track.stop());
 
             socket.emit(ACTIONS.LEAVE);
         };

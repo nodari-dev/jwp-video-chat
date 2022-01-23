@@ -3,7 +3,7 @@ import {Footer} from "../../common";
 import {Navigation, Message} from "../../components";
 import ActionItem from "./ActionItem";
 
-// import socket from "../../socket";
+import socket from "../../socket";
 
 import {
     SettingsSlidersIcon,

@@ -6,7 +6,7 @@ import "./style.scss";
 import {useNavigate} from "react-router-dom";
 import {v4} from 'uuid';
 import socket from "../../socket";
-import { ACTIONS } from "../../socket/actions";
+import ACTIONS from "../../socket/actions";
 
 export default (props: any) => {
     const history = useNavigate();
