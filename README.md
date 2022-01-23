@@ -12,11 +12,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `node server.js`
 
-Runs the app backend
-
-## After 2 steps above got to [http://localhost:3000](http://localhost:3000) and press Start conference.
+## After this step above got to [http://localhost:3000](http://localhost:3000) and press Start conference.
 ### in order to test if there is ability to connect multiple users copy url http://localhost:3000/room/:id and pase it in other tab.
 
 
