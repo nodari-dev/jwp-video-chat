@@ -4,6 +4,7 @@ import {VideoCameraIcon} from '@iconicicons/react';
 import "./style.scss";
 import { ACTIONS } from "../../../socket/actions";
 import socket from "../../../socket";
+import {v4} from 'uuid';
 
 export default (props: any) => {
     const history = useNavigate();
@@ -23,8 +24,4 @@ export default (props: any) => {
             <p>Start Conference</p>
         </div>
     )
-}
-
-function v4() {
-    throw new Error("Function not implemented.");
 }

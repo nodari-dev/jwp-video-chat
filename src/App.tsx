@@ -9,7 +9,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Index/>}/>
                 <Route path="/dashboard" element={<Dashboard/>}/>
-                <Route path="/meeting/:id" element={<Meeting/>}/>
+                <Route path="/room/:id" element={<Meeting/>}/>
                 {/*<Route element={<notFound/>}/>*/}
             </Routes>
         </div>
