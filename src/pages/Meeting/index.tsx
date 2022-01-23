@@ -20,26 +20,9 @@ import "./style.scss";
 import {useParams} from "react-router-dom";
 import useWebRTC, {LOCAL_VIDEO} from "../../hooks/useWebRTC";
 import message from "../../components/Message";
+import Tabs from "./Tabs";
+import Sidebar from "./Sidebar";
 
-
-const messages = [
-    {
-        name: "test",
-        message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
-    },
-    {
-        name: "Nazar Bazar",
-        message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
-    },
-    {
-        name: "Denis Penis",
-        message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
-    },
-    {
-        name: "Danylo LOX",
-        message: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual "
-    },
-]
 
 const users = [
     {
@@ -182,43 +165,7 @@ export default (props: any) => {
                     </div>
                 </div>
             </div>
-            <div className={`wrap meeting-sidebar ${showSidebar && "hidden"}`}>
-                <div className="content">
-                    <div className="tabs">
-                        <ul className={"tabs-list"}>
-                            <li className={`${showChat && "active"}`}>
-                                <span onClick={() => setVisibleChat(true)}><p>Chat</p></span>
-                            </li>
-                            <li className={`${!showChat && "active"}`}>
-                                <span onClick={() => setVisibleChat(false)}>
-                                    <p>Members</p> <div className={"users-count"}><p>{clients.length}</p></div>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className={"messages"}>
-                        <ul className={'messages-list'}>
-                            {messages.map((item: any, index: any) => {
-                                return (
-                                    <li key={index}>
-                                        <Message name={item.name} message={item.message}/>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </div>
-                    <div className={"form-message"}>
-                        <form>
-                            <textarea
-                                   name={"message"}
-                                   id={"message"}
-                                   placeholder={"Type your message..."}
-                            />
-                            <button><SendIcon/></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <Sidebar show={showSidebar} hook={showSidebar} clients={clients.length}/>
         </div>
     )
 }
