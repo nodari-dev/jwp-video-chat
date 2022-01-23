@@ -17,6 +17,8 @@ import {
 
 import "./style.scss";
 import Member from "./Member";
+import { useParams } from "react-router-dom";
+import useWebRTC, { LOCAL_VIDEO } from "../../hooks/useWebRTC";
 
 
 const users = [
@@ -40,9 +42,42 @@ const users = [
     },
 ]
 
+function layout(clientsNumber = 1) {
+    const pairs:any = Array.from({length: clientsNumber})
+        .reduce((acc:any, next, index, arr) => {
+            if (index % 2 === 0) {
+                acc.push(arr.slice(index, index + 2));
+            }
+
+            return acc;
+        }, []);
+
+    const rowsNumber = pairs.length;
+    const height = `${100 / rowsNumber}%`;
+
+    return pairs.map((row:any, index:any, arr:any) => {
+
+        if (index === arr.length - 1 && row.length === 1) {
+            return [{
+                width: '100%',
+                height,
+            }];
+        }
+
+        return row.map(() => ({
+            width: '50%',
+            height,
+        }));
+    }).flat();
+}
+
 export default (props: any) => {
 
     const [showChat, setChatVisability] = React.useState(true);
+
+    const {id: roomID} = useParams();
+    const {clients, provideMediaRef} = useWebRTC(roomID);
+    const videoLayout = layout(clients.length);
 
     return (
         <div className={"container"}>
@@ -93,7 +128,24 @@ export default (props: any) => {
                         </ul>
                     </div>
                 </div>
-                <div className="right-content"></div>
+                <div className="right-content">
+                    {clients.map((clientID:any, index:any) => {
+                        return (
+                            <div key={clientID} style={videoLayout[index]} id={clientID}>
+                                <video
+                                    width='100%'
+                                    height='100%'
+                                    ref={instance => {
+                                        provideMediaRef(clientID, instance);
+                                    }}
+                                    autoPlay
+                                    playsInline
+                                    muted={clientID === LOCAL_VIDEO}
+                                />
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
             <Footer/>
         </div>
